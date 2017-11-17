@@ -6,7 +6,7 @@ description      'Chef LWRPs to interact with Icinga2 API'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 source_url 'https://github.com/scopenco/chef-icinga2_api'
 issues_url 'https://github.com/scopenco/chef-icinga2_api/issues'
-version '0.1.3'
+version '0.1.4'
 
 supports 'amazon'
 supports 'redhat'

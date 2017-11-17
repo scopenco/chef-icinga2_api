@@ -60,8 +60,8 @@ action :create do
   converge_by("Checking object Host #{new_resource.name}") do
     # check if object defined
     result = client.hosts(name: new_resource.name)
-    raise "Can't open connection to API" if result.nil? || !result.is_a?(Array)
     Chef::Log.debug(result.to_s)
+    raise "Can't open connection to API" if result.nil? || !result.is_a?(Array)
 
     # for new object
     if result[0]['code'] == 404

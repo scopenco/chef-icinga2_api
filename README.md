@@ -36,7 +36,7 @@ Chef cookbook with LWRPs used to interact with icinga2 API.
 
 ## Recipes
 
-* `default` - installing icinga2 gem for LWRPs.
+* `default` - installing [icinga2](https://github.com/bodsch/ruby-icinga2/) gem for LWRPs.
 
 ## Usage
 

@@ -51,9 +51,9 @@ LWRP `host` creates an icinga `Host` object.
 
 ```
   icinga2_api_host 'host1' do
-    options address: '127.0.0.1',
-            templates: ['check-host-tmpl-30s'],
-            display_name: 'host1'
+    attributes address: '127.0.0.1',
+               templates: ['check-host-tmpl-30s'],
+               display_name: 'host1'
     icinga_api_pass 'mysecret'
   end
 ```

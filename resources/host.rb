@@ -20,8 +20,8 @@
 resource_name :icinga2_api_host
 
 property :name, String, required: true, name_property: true
-property :options, kind_of: Hash
-property :icinga_host, kind_of: String, default: 'localhost'
+property :attributes, kind_of: Hash
+property :icinga_api_host, kind_of: String, default: 'localhost'
 property :icinga_api_port, kind_of: Integer, default: 5665
 property :icinga_api_user, kind_of: String, default: 'admin'
 property :icinga_api_pass, kind_of: String, required: true
@@ -37,7 +37,7 @@ action :create do
 
   config = {
     icinga: {
-      host: new_resource.icinga_host,
+      host: new_resource.icinga_api_host,
       api: {
         port: new_resource.icinga_api_port,
         user: new_resource.icinga_api_user,
@@ -51,8 +51,8 @@ action :create do
   }
   client = Icinga2::Client.new(config)
 
-  options = { name: new_resource.name }
-  options.merge!(new_resource.options)
+  attributes = { name: new_resource.name }
+  attributes.merge!(new_resource.attributes)
 
   # set flags
   update = false
@@ -69,7 +69,7 @@ action :create do
       # Check if this object has the same settings
       attrs = result[0]['attrs']
       # check each defined attribute
-      options.select { |k, _v| attrs.keys.include?(k.to_s) }.each do |k, v|
+      attributes.select { |k, _v| attrs.keys.include?(k.to_s) }.each do |k, v|
         # templates is Array so checking each item
         if k.to_s == 'templates'
           # check if defined template exists in object templates
@@ -90,7 +90,7 @@ action :create do
   if update || create
     converge_by("Creating object Host #{new_resource.name}") do
       begin
-        client.add_host(options)
+        client.add_host(attributes)
       rescue ArgumentError => err
         raise "Argument error: #{err}"
       end

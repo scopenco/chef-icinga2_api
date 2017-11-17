@@ -17,8 +17,9 @@
 # limitations under the License.
 #
 
-# Install gem from fork, because icinga2 lib is not release yet
+include_recipe 'build-essential'
 
+# Install gem from fork, because icinga2 lib is not release yet
 package 'git'
 git '/opt/ruby-icinga2' do
   repository 'https://github.com/scopenco/ruby-icinga2.git'

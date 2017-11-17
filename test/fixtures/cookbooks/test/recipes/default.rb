@@ -18,7 +18,6 @@
 #
 
 include_recipe 'icinga2::attributes'
-include_recipe 'icinga2::server_os_packages'
 include_recipe 'icinga2::core_install'
 include_recipe 'icinga2::server_config'
 include_recipe 'icinga2::service'

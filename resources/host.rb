@@ -61,6 +61,7 @@ action :create do
     # check if object defined
     result = client.hosts(name: new_resource.name)
     raise "Can't open connection to API" if result.nil? || !result.is_a?(Array)
+    Chef::Log.debug(result.to_s)
 
     # for new object
     if result[0]['code'] == 404
@@ -89,11 +90,7 @@ action :create do
 
   if update || create
     converge_by("Creating object Host #{new_resource.name}") do
-      begin
-        client.add_host(attributes)
-      rescue ArgumentError => err
-        raise "Argument error: #{err}"
-      end
+      add_host(client, attributes)
     end
   end
 end
@@ -103,7 +100,7 @@ action :delete do
 
   config = {
     icinga: {
-      host: new_resource.icinga_host,
+      host: new_resource.icinga_api_host,
       api: {
         port: new_resource.icinga_api_port,
         user: new_resource.icinga_api_user,
@@ -117,13 +114,38 @@ action :delete do
   }
   client = Icinga2::Client.new(config)
 
-  converge_by("Removing object Host #{new_resource.name}") do
-    delete_host(client, new_resource.name)
+  # set flags
+  delete = false
+  converge_by("Checking object Host #{new_resource.name}") do
+    # check if hosts exists
+    result = client.hosts(name: new_resource.name)
+    Chef::Log.debug(result.to_s)
+    raise "Can't open connection to API" if result.nil? || !result.is_a?(Array)
+    delete = true if result[0]['code'] == 200
+  end
+
+  if delete
+    converge_by("Removing object Host #{new_resource.name}") do
+      delete_host(client, new_resource.name)
+    end
   end
 end
 
+# add icinga2 object 'Host'
+def add_host(client, attributes)
+  begin
+    result = client.add_host(attributes)
+    Chef::Log.debug(result.to_s)
+    raise "Can't open connection to API" if result.nil? || !result.is_a?(Hash)
+  rescue ArgumentError => err
+    raise "Argument error: #{err}"
+  end
+end
+
+# delete icinga2 object 'Host'
 def delete_host(client, name)
   result = client.delete_host(name: name)
+  Chef::Log.debug(result.to_s)
   raise "Can't open connection to API" if result.nil? || !result.is_a?(Hash)
   raise "Failed to delete object Host #{name}: #{result}" unless [200, 404].include?(result['code'])
 end

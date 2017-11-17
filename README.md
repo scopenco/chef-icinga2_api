@@ -7,11 +7,12 @@
    * [icinga2_api Cookbook](#icinga2_api-cookbook)
       * [Description](#description)
       * [Requirements](#requirements)
+         * [Cookbooks](#cookbooks)
          * [Chef](#chef)
          * [Platforms](#platforms)
       * [Recipes](#recipes)
       * [Usage](#usage)
-      * [LWRP icinga2_api_host](#lwrp-icinga2_api_host)
+         * [icinga2_api_host](#icinga2_api_host)
       * [License &amp; Authors](#license--authors)
 
 Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
@@ -21,6 +22,10 @@ Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
 Chef cookbook with LWRPs used to interact with icinga2 API.
 
 ## Requirements
+
+### Cookbooks
+
+- [build-essential](https://supermarket.chef.io/cookbooks/build-essential)
 
 ### Chef
 
@@ -43,7 +48,7 @@ Chef cookbook with LWRPs used to interact with icinga2 API.
 The main use case is to create icinga2 object on node bootstrap time. Thus you don't need to create any autodiscovery tools that will describe all nodes in icinga2 setup.
 Please refer to [integration cookbook](https://github.com/scopenco/chef-icinga2_api/blob/master/test/fixtures/cookbooks/test/recipes/default.rb) for examples.
 
-## LWRP icinga2_api_host
+### icinga2_api_host
 
 LWRP `host` creates an icinga `Host` object.
 

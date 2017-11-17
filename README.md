@@ -73,7 +73,7 @@ LWRP `host` creates an icinga `Host` object.
 - *action* (optional)                       - options: [:create, :delete], default :create
 
 ## License & Authors
-- Author:: Andrei Skopenko <andrey@skopenko.net>
+- Author:: Andrei Skopenko <andrei@skopenko.net>
 
 ```text
 Licensed under the Apache License, Version 2.0 (the "License");

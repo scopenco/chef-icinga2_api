@@ -133,13 +133,11 @@ end
 
 # add icinga2 object 'Host'
 def add_host(client, attributes)
-  begin
-    result = client.add_host(attributes)
-    Chef::Log.debug(result.to_s)
-    raise "Can't open connection to API" if result.nil? || !result.is_a?(Hash)
-  rescue ArgumentError => err
-    raise "Argument error: #{err}"
-  end
+  result = client.add_host(attributes)
+  Chef::Log.debug(result.to_s)
+  raise "Can't open connection to API" if result.nil? || !result.is_a?(Hash)
+rescue ArgumentError => err
+  raise "Argument error: #{err}"
 end
 
 # delete icinga2 object 'Host'

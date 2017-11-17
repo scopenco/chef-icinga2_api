@@ -15,3 +15,5 @@ supports 'scientific'
 supports 'fedora'
 supports 'debian'
 supports 'ubuntu'
+
+depends 'build-essential'

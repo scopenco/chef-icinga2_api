@@ -4,6 +4,18 @@
 [![Build Status](https://secure.travis-ci.org/scopenco/chef-icinga2_api.png?branch=master)](http://travis-ci.org/scopenco/chef-icinga2_api)
 [![License](https://img.shields.io/badge/license-Apache_2-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)
 
+   * [icinga2_api Cookbook](#icinga2_api-cookbook)
+      * [Description](#description)
+      * [Requirements](#requirements)
+         * [Chef](#chef)
+         * [Platforms](#platforms)
+      * [Recipes](#recipes)
+      * [Usage](#usage)
+      * [LWRP icinga2_api_host](#lwrp-icinga2_api_host)
+      * [License &amp; Authors](#license--authors)
+
+Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
+
 ## Description
 
 Chef cookbook with LWRPs used to interact with icinga2 API.
@@ -47,18 +59,6 @@ LWRP `host` creates an icinga `Host` object.
 ```
 
 **LWRP Options**
-
-property :name, String, required: true, name_property: true
-property :options, kind_of: Hash
-
-property :icinga_api_host, kind_of: String, default: 'localhost'
-property :icinga_api_port, kind_of: Integer, default: 5665
-property :icinga_api_user, kind_of: String, default: 'admin'
-property :icinga_api_pass, kind_of: String, required: true
-property :icinga_api_pki_path, kind_of: String, default: '/etc/icinga2'
-property :icinga_api_node_name, kind_of: String
-property :icinga_cluster, kind_of: [TrueClass, FalseClass], default: false
-property :icinga_satellite, kind_of: String
 
 - *name* (name_attribute, String)           - chef resource name and icinga2 host name
 - *attributes* (optional, Hash)             - icinga2 host object attributes

@@ -1,6 +1,11 @@
 icinga2_api CHANGELOG
 ========================
 
+0.1.5 (2017-11-19)
+------------------
+- Add TESTING.md
+- Add CONTRIBUTING.md
+
 0.1.4 (2017-11-17)
 ------------------
 - Fix readme

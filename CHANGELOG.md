@@ -4,6 +4,7 @@ icinga2_api CHANGELOG
 0.2.0 (2017-11-20)
 ------------------
 - Add icinga2_api_service LWRP
+- Update docs
 
 0.1.5 (2017-11-19)
 ------------------

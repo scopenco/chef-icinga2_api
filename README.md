@@ -45,7 +45,7 @@ Chef cookbook with LWRPs used to interact with icinga2 API.
 
 ## Usage
 
-The main use case is to create icinga2 object on node bootstrap time. Thus you don't need to create any autodiscovery tools that will describe all nodes in icinga2 setup.
+The main use case is to create icinga2 objects on the node bootstrap time. Thus you don't need to create any autodiscovery tools that will describe all nodes in icinga2 setup.
 Please refer to [integration cookbook](https://github.com/scopenco/chef-icinga2_api/blob/master/test/fixtures/cookbooks/test/recipes/default.rb) for examples.
 
 ### icinga2_api_host
@@ -65,17 +65,48 @@ LWRP `host` creates an icinga `Host` object.
 
 **LWRP Options**
 
-- *name* (name_attribute, String)           - chef resource name and icinga2 host name
-- *attributes* (optional, Hash)             - icinga2 host object attributes
-- *icinga_api_host* (optional, String)      - icinga2 API host, default: 'localhost'
-- *icinga_api_port* (optional, Integer)     - icinga2 API port, default: 5665
-- *icinga_api_user* (optional, String)      - icinga2 API username, default: 'admin'
-- *icinga_api_pass* (required, String)      - icinga2 API password
-- *icinga_api_pki_path* (optional, String)  - icinga2 API path to pki for cert auth, default: '/etc/icinga2' 
-- *icinga_api_node_name* (optional, String) - icinga2 API node endpoint
-- *icinga_cluster* (optional, Boolean)      - icinga2 cluster mode enabled, default: false
-- *icinga_satellite* (optional, String)     - icinga2 satellite name
-- *action* (optional)                       - options: [:create, :delete], default :create
+- *name* (name_attribute, String)           - chef resource name and icinga2 host name.
+- *attributes* (optional, Hash)             - icinga2 host object attributes.
+- *icinga_api_host* (optional, String)      - icinga2 API host, default: 'localhost'.
+- *icinga_api_port* (optional, Integer)     - icinga2 API port, default: 5665.
+- *icinga_api_user* (optional, String)      - icinga2 API username, default: 'admin'.
+- *icinga_api_pass* (required, String)      - icinga2 API password.
+- *icinga_api_pki_path* (optional, String)  - icinga2 API path to pki for cert auth, default: '/etc/icinga2'.
+- *icinga_api_node_name* (optional, String) - icinga2 API node endpoint.
+- *icinga_cluster* (optional, Boolean)      - icinga2 cluster mode enabled, default: false.
+- *icinga_satellite* (optional, String)     - icinga2 satellite name.
+- *action* (optional)                       - options: [:create, :delete], default :create.
+
+### icinga2_api_service
+
+LWRP `service` creates an icinga `Service` object.
+
+**LWRP Environment Service example**
+
+```
+  icinga2_api_service 'host1_ping1' do
+    host_name 'host1'
+    attributes templates: ['check-service-tmpl-30s'],
+               display_name: 'PING1',
+               check_command: 'hostalive'
+    icinga_api_pass 'mysecret'
+  end
+```
+
+**LWRP Options**
+
+- *name* (name_attribute, String)           - chef resource name and icinga2 service name. Should be unique in icinga2 setup.
+- *host_name* (required, Hash)              - icinga2 host name object attributes.
+- *attributes* (optional, Hash)             - icinga2 service object attributes.
+- *icinga_api_host* (optional, String)      - icinga2 API host, default: 'localhost'.
+- *icinga_api_port* (optional, Integer)     - icinga2 API port, default: 5665.
+- *icinga_api_user* (optional, String)      - icinga2 API username, default: 'admin'.
+- *icinga_api_pass* (required, String)      - icinga2 API password.
+- *icinga_api_pki_path* (optional, String)  - icinga2 API path to pki for cert auth, default: '/etc/icinga2'.
+- *icinga_api_node_name* (optional, String) - icinga2 API node endpoint.
+- *icinga_cluster* (optional, Boolean)      - icinga2 cluster mode enabled, default: false.
+- *icinga_satellite* (optional, String)     - icinga2 satellite name.
+- *action* (optional)                       - options: [:create, :delete], default :create.
 
 ## License & Authors
 - Author:: Andrei Skopenko <andrei@skopenko.net>

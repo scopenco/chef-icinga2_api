@@ -13,6 +13,7 @@
       * [Recipes](#recipes)
       * [Usage](#usage)
          * [icinga2_api_host](#icinga2_api_host)
+         * [icinga2_api_service](#icinga2_api_service)
       * [License &amp; Authors](#license--authors)
 
 Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)

@@ -17,6 +17,7 @@
 # limitations under the License.
 #
 
+node.default['icinga2']['ignore_version'] = true
 include_recipe 'icinga2::attributes'
 include_recipe 'icinga2::core_install'
 include_recipe 'icinga2::server_config'
@@ -28,6 +29,13 @@ icinga2_host 'check-host-tmpl-30s' do
   check_interval '30s'
   retry_interval '5s'
   check_command 'hostalive'
+end
+
+icinga2_service 'check-service-tmpl-30s' do
+  template true
+  max_check_attempts 3
+  check_interval '30s'
+  retry_interval '10s'
 end
 
 # setup icinga2 endpoint for API
@@ -90,6 +98,20 @@ icinga2_api_host 'host1' do
              templates: ['check-host-tmpl-30s'],
              display_name: 'host1'
   icinga_api_pass 'mysecret'
+end
+
+icinga2_api_service 'host1_ping1' do
+  host_name 'host1'
+  attributes templates: ['check-service-tmpl-30s'],
+             display_name: 'PING1',
+             check_command: 'hostalive'
+  icinga_api_pass 'mysecret'
+end
+
+icinga2_api_service 'host1_ping2' do
+  host_name 'host1'
+  icinga_api_pass 'mysecret'
+  action :delete
 end
 
 icinga2_api_host 'host2' do

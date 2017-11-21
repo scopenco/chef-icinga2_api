@@ -1,6 +1,10 @@
 icinga2_api CHANGELOG
 ========================
 
+0.2.0 (2017-11-20)
+------------------
+- Add icinga2_api_service LWRP
+
 0.1.5 (2017-11-19)
 ------------------
 - Add TESTING.md

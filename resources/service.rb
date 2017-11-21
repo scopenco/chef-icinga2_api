@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: icinga2_api
-# Resource:: icinga2_api_host
+# Resource:: icinga2_api_service
 #
 # Copyright 2017, Andrei Skopenko <andrei@skopenko.net>
 #
@@ -17,9 +17,10 @@
 # limitations under the License.
 #
 
-resource_name :icinga2_api_host
+resource_name :icinga2_api_service
 
 property :name, String, required: true, name_property: true
+property :host_name, String, required: true
 property :attributes, kind_of: Hash
 property :icinga_api_host, kind_of: String, default: 'localhost'
 property :icinga_api_port, kind_of: Integer, default: 5665
@@ -51,15 +52,15 @@ action :create do
   }
   client = Icinga2::Client.new(config)
 
-  attributes = { name: new_resource.name }
+  attributes = { name: new_resource.name, host_name: new_resource.host_name }
   attributes.merge!(new_resource.attributes)
 
   # set flags
   update = false
   create = false
-  converge_by("Checking object Host #{new_resource.name}") do
+  converge_by("Checking object Service #{new_resource.name}") do
     # check if object defined
-    result = client.hosts(name: new_resource.name)
+    result = client.services(name: new_resource.name, host_name: new_resource.host_name)
     Chef::Log.debug(result.to_s)
     raise "Can't open connection to API" if result.nil? || !result.is_a?(Array)
 
@@ -83,14 +84,14 @@ action :create do
   end
 
   if update
-    converge_by("Removing outdated object Host #{new_resource.name}") do
-      delete_host(client, new_resource.name)
+    converge_by("Removing outdated object Service #{new_resource.name}") do
+      delete_service(client, new_resource.name, new_resource.host_name)
     end
   end
 
   if update || create
-    converge_by("Creating object Host #{new_resource.name}") do
-      add_host(client, attributes)
+    converge_by("Creating object Service #{new_resource.name}") do
+      add_service(client, attributes)
     end
   end
 end
@@ -116,35 +117,35 @@ action :delete do
 
   # set flags
   delete = false
-  converge_by("Checking object Host #{new_resource.name}") do
-    # check if hosts exists
-    result = client.hosts(name: new_resource.name)
+  converge_by("Checking object Service #{new_resource.name}") do
+    # check if service exists
+    result = client.services(name: new_resource.name, host_name: new_resource.host_name)
     Chef::Log.debug(result.to_s)
     raise "Can't open connection to API" if result.nil? || !result.is_a?(Array)
     delete = true if result[0]['code'] == 200
   end
 
   if delete
-    converge_by("Removing object Host #{new_resource.name}") do
-      delete_host(client, new_resource.name)
+    converge_by("Removing object Service #{new_resource.name}") do
+      delete_service(client, new_resource.name, new_resource.host_name)
     end
   end
 end
 
-# add icinga2 object 'Host'
-def add_host(client, attributes)
-  result = client.add_host(attributes)
+# add icinga2 object 'Service'
+def add_service(client, attributes)
+  result = client.add_service(attributes)
   Chef::Log.debug(result.to_s)
   raise "Can't open connection to API" if result.nil? || !result.is_a?(Hash)
-  raise "Failed to create object Host #{name}: #{result}" unless result['code'] == 200
+  raise "Failed to create object Service #{name}: #{result}" unless result['code'] == 200
 rescue ArgumentError => err
   raise "Argument error: #{err}"
 end
 
-# delete icinga2 object 'Host'
-def delete_host(client, name)
-  result = client.delete_host(name: name)
+# delete icinga2 object 'Service'
+def delete_service(client, name, host_name)
+  result = client.delete_service(name: name, host_name: host_name)
   Chef::Log.debug(result.to_s)
   raise "Can't open connection to API" if result.nil? || !result.is_a?(Hash)
-  raise "Failed to delete object Host #{name}: #{result}" unless [200, 404].include?(result['code'])
+  raise "Failed to delete object Service #{name}: #{result}" unless [200, 404].include?(result['code'])
 end

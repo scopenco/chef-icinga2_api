@@ -19,18 +19,6 @@
 
 include_recipe 'build-essential'
 
-# Install gem from fork, because icinga2 lib is not release yet
-package 'git'
-git '/opt/ruby-icinga2' do
-  repository 'https://github.com/scopenco/ruby-icinga2.git'
-  branch 'add_system_commands'
-end
-
-execute '/opt/chef/embedded/bin/gem build icinga2.gemspec' do
-  cwd '/opt/ruby-icinga2'
-end
-
-gem_package 'icinga2' do
-  source '/opt/ruby-icinga2/icinga2-1.0.0.pre3.gem'
-  action :upgrade
+chef_gem 'icinga2' do
+  version '0.9.2.8'
 end

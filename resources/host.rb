@@ -40,7 +40,7 @@ action :create do
       host: new_resource.icinga_api_host,
       api: {
         port: new_resource.icinga_api_port,
-        user: new_resource.icinga_api_user,
+        username: new_resource.icinga_api_user,
         password: new_resource.icinga_api_pass,
         pki_path: new_resource.icinga_api_pki_path,
         node_name: new_resource.icinga_api_node_name,
@@ -103,7 +103,7 @@ action :delete do
       host: new_resource.icinga_api_host,
       api: {
         port: new_resource.icinga_api_port,
-        user: new_resource.icinga_api_user,
+        username: new_resource.icinga_api_user,
         password: new_resource.icinga_api_pass,
         pki_path: new_resource.icinga_api_pki_path,
         node_name: new_resource.icinga_api_node_name,

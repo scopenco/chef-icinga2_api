@@ -13,8 +13,8 @@ provisioner:
 platforms:
   - name: debian-7.7
   - name: ubuntu-14.04
-  - name: centos-6.8
-  - name: centos-7.2
+  - name: centos-6.9
+  - name: centos-7.4
 
 suites:
   - name: default

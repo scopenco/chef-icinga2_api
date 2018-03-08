@@ -1,6 +1,11 @@
 icinga2_api CHANGELOG
 ========================
 
+0.3.0 (2018-03-08)
+------------------
+- Fix API calls
+- Update teskitchen env
+
 0.2.1 (2017-11-21)
 ------------------
 - Fix docs

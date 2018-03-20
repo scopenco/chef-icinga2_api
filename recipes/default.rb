@@ -17,6 +17,7 @@
 # limitations under the License.
 #
 
+node.default['build-essential']['compile_time'] = true
 include_recipe 'build-essential'
 
 chef_gem 'icinga2' do

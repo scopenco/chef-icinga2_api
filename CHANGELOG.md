@@ -1,6 +1,10 @@
 icinga2_api CHANGELOG
 ========================
 
+0.3.1 (2018-03-20)
+------------------
+- Fix build-essential setup
+
 0.3.0 (2018-03-08)
 ------------------
 - Fix API calls

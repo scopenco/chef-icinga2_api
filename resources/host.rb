@@ -24,6 +24,8 @@ property :connection, Hash, required: true, desired_state: false
 
 default_action :create
 
+# I put this 'include' here instead of action_class because 'load_current_value'
+# is using icinga2_api_conn func too.
 include Icinga2ApiHelper
 
 load_current_value do |desired|

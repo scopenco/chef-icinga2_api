@@ -93,28 +93,40 @@ end
 
 include_recipe 'icinga2_api'
 
+# Set connection to icinga2 API
+icinga2_api = {
+    host: '127.0.0.1',
+    username: 'admin',
+    password: 'mysecret',
+    node_name: 'master',
+    cluster: true,
+    satellite: 'master',
+}
+
 icinga2_api_host 'host1' do
-  attributes address: '127.0.0.1',
-             templates: ['check-host-tmpl-30s'],
-             display_name: 'host1'
-  icinga_api_pass 'mysecret'
+  attributes 'address' => '127.0.0.1',
+	     'templates' => ['check-host-tmpl-30s'],
+	     'vars' => {
+		'myvar' => 'mygroup',
+	      }
+  connection icinga2_api
+end
+
+icinga2_api_host 'host2' do
+  connection icinga2_api
+  action :delete
 end
 
 icinga2_api_service 'host1_ping1' do
   host_name 'host1'
-  attributes templates: ['check-service-tmpl-30s'],
-             display_name: 'PING1',
-             check_command: 'hostalive'
-  icinga_api_pass 'mysecret'
+  attributes 'templates' => ['check-service-tmpl-30s'],
+             'display_name' => 'PING1',
+             'check_command' => 'hostalive'
+  connection icinga2_api
 end
 
 icinga2_api_service 'host1_ping2' do
   host_name 'host1'
-  icinga_api_pass 'mysecret'
-  action :delete
-end
-
-icinga2_api_host 'host2' do
-  icinga_api_pass 'mysecret'
+  connection icinga2_api
   action :delete
 end

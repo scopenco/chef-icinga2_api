@@ -29,6 +29,9 @@ default_action :create
 include Icinga2ApiHelper
 
 load_current_value do |desired|
+  # Require should be here, because it will be installed in recipes before run
+  require 'icinga2'
+
   # Get host object from API
   client = icinga2_api_conn(connection)
   result = client.hosts(name: name)
@@ -48,6 +51,9 @@ load_current_value do |desired|
 end
 
 action :create do
+  # Require should be here, because it will be installed in recipes before run
+  require 'icinga2'
+
   converge_if_changed do
     client = icinga2_api_conn(new_resource.connection)
 
@@ -64,6 +70,8 @@ action :create do
 end
 
 action :delete do
+  require 'icinga2'
+
   client = icinga2_api_conn(new_resource.connection)
 
   converge_by "delete object Host #{new_resource.name}" do
@@ -72,6 +80,7 @@ action :delete do
 end
 
 action_class do
+
   # add icinga2 object 'Host'
   def add_host(client, attributes)
     result = client.add_host(attributes)

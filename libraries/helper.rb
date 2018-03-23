@@ -17,8 +17,6 @@
 # limitations under the License.
 #
 
-require 'icinga2'
-
 module Icinga2ApiHelper
   ## TODO disable reloading API
   # Prepate client object

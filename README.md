@@ -56,26 +56,31 @@ LWRP `host` creates an icinga `Host` object.
 **LWRP Environment Host example**
 
 ```
-  icinga2_api_host 'host1' do
-    attributes address: '127.0.0.1',
-               templates: ['check-host-tmpl-30s'],
-               display_name: 'host1'
-    icinga_api_pass 'mysecret'
-  end
+# Set connection to icinga2 API
+icinga2_api = {
+    host: '127.0.0.1',
+    username: 'admin',
+    password: 'mysecret',
+    node_name: 'master',
+    cluster: true,
+    satellite: 'master',
+}
+
+icinga2_api_host 'host1' do
+  attributes 'address' => '127.0.0.1',
+	     'templates' => ['check-host-tmpl-30s'],
+	     'vars' => {
+		'myvar' => 'mygroup',
+	      }
+  connection icinga2_api
+end
 ```
 
 **LWRP Options**
 
 - *name* (name_attribute, String)           - chef resource name and icinga2 host name.
 - *attributes* (optional, Hash)             - icinga2 host object attributes.
-- *icinga_api_host* (optional, String)      - icinga2 API host, default: 'localhost'.
-- *icinga_api_port* (optional, Integer)     - icinga2 API port, default: 5665.
-- *icinga_api_user* (optional, String)      - icinga2 API username, default: 'admin'.
-- *icinga_api_pass* (required, String)      - icinga2 API password.
-- *icinga_api_pki_path* (optional, String)  - icinga2 API path to pki for cert auth, default: '/etc/icinga2'.
-- *icinga_api_node_name* (optional, String) - icinga2 API node endpoint.
-- *icinga_cluster* (optional, Boolean)      - icinga2 cluster mode enabled, default: false.
-- *icinga_satellite* (optional, String)     - icinga2 satellite name.
+- *connection* (optional, Hash)             - icinga2 API connection settings.
 - *action* (optional)                       - options: [:create, :delete], default :create.
 
 ### icinga2_api_service
@@ -85,13 +90,23 @@ LWRP `service` creates an icinga `Service` object.
 **LWRP Environment Service example**
 
 ```
-  icinga2_api_service 'host1_ping1' do
-    host_name 'host1'
-    attributes templates: ['check-service-tmpl-30s'],
-               display_name: 'PING1',
-               check_command: 'hostalive'
-    icinga_api_pass 'mysecret'
-  end
+# Set connection to icinga2 API
+icinga2_api = {
+    host: '127.0.0.1',
+    username: 'admin',
+    password: 'mysecret',
+    node_name: 'master',
+    cluster: true,
+    satellite: 'master',
+}
+
+icinga2_api_service 'host1_ping1' do
+  host_name 'host1'
+  attributes 'templates' => ['check-service-tmpl-30s'],
+             'display_name' => 'PING1',
+             'check_command' => 'hostalive'
+  connection icinga2_api
+end
 ```
 
 **LWRP Options**
@@ -99,14 +114,7 @@ LWRP `service` creates an icinga `Service` object.
 - *name* (name_attribute, String)           - chef resource name and icinga2 service name. Should be unique in icinga2 setup.
 - *host_name* (required, Hash)              - icinga2 host name object attributes.
 - *attributes* (optional, Hash)             - icinga2 service object attributes.
-- *icinga_api_host* (optional, String)      - icinga2 API host, default: 'localhost'.
-- *icinga_api_port* (optional, Integer)     - icinga2 API port, default: 5665.
-- *icinga_api_user* (optional, String)      - icinga2 API username, default: 'admin'.
-- *icinga_api_pass* (required, String)      - icinga2 API password.
-- *icinga_api_pki_path* (optional, String)  - icinga2 API path to pki for cert auth, default: '/etc/icinga2'.
-- *icinga_api_node_name* (optional, String) - icinga2 API node endpoint.
-- *icinga_cluster* (optional, Boolean)      - icinga2 cluster mode enabled, default: false.
-- *icinga_satellite* (optional, String)     - icinga2 satellite name.
+- *connection* (optional, Hash)             - icinga2 API connection settings.
 - *action* (optional)                       - options: [:create, :delete], default :create.
 
 ## License & Authors

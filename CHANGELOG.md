@@ -1,6 +1,10 @@
 icinga2_api CHANGELOG
 ========================
 
+1.0.1 (2018-03-26)
+------------------
+- Decrease debuging
+
 1.0.0 (2018-03-23)
 ------------------
 - Switch to the new style custom resource

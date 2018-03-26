@@ -89,7 +89,6 @@ action_class do
     raise "Can't open connection to API" if result.nil?
     raise result.to_s unless result.is_a?(Hash)
     raise "Failed to create object Service #{name}: #{result}" unless result['code'] == 200
-    Chef::Log.warn(result.to_s)
   rescue ArgumentError => err
     raise "Argument error: #{err}"
   end

@@ -4,6 +4,7 @@ icinga2_api CHANGELOG
 1.0.1 (2018-03-26)
 ------------------
 - Decrease debuging
+- Support strings/symbols in arguments
 
 1.0.0 (2018-03-23)
 ------------------

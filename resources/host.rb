@@ -41,9 +41,10 @@ load_current_value do |desired|
   if result[0]['code'] == 404
     current_value_does_not_exist!
   else
+    attributes_s = desired.attributes.each_with_object({}) {|(k,v), h| h[k.to_s] = v}
     # Remove default 'name' value from 'templates' Array
-    attrs = result[0]['attrs'].select { |k, _v| desired.attributes.keys.include?(k) }
-    if desired.attributes.keys.include?('templates')
+    attrs = result[0]['attrs'].select { |k, _v| attributes_s.keys.include?(k) }
+    if attributes_s.keys.include?('templates')
       attrs['templates'].delete(desired.name)
     end
     attributes attrs

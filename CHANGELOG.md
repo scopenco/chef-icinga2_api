@@ -1,6 +1,10 @@
 icinga2_api CHANGELOG
 ========================
 
+1.0.2 (2018-04-3)
+------------------
+- Improve removing host object
+
 1.0.1 (2018-03-26)
 ------------------
 - Decrease debuging

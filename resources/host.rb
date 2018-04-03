@@ -72,33 +72,21 @@ end
 
 action :delete do
   require 'icinga2'
-
   client = icinga2_api_conn(new_resource.connection)
+
+  converge_by "delete objects related to Host #{new_resource.name}" do
+    result = client.service_objects(
+      attrs: %w(name),
+      filter: "match(\"#{new_resource.name}\", host.name)",
+    ).map { |k| k['attrs']['name'] }
+    raise "Can't open connection to API" if result.nil?
+    raise result.to_s unless result.is_a?(Array)
+    result.each do |srv|
+      delete_service(client, srv, new_resource.name)
+    end
+  end
 
   converge_by "delete object Host #{new_resource.name}" do
     delete_host(client, new_resource.name)
-  end
-end
-
-action_class do
-
-  # add icinga2 object 'Host'
-  def add_host(client, attributes)
-    result = client.add_host(attributes)
-    Chef::Log.debug(result.to_s)
-    raise "Can't open connection to API" if result.nil?
-    raise result.to_s unless result.is_a?(Hash)
-    raise "Failed to create object Host #{name}: #{result}" unless result['code'] == 200
-  rescue ArgumentError => err
-    raise "Argument error: #{err}"
-  end
-
-  # delete icinga2 object 'Host'
-  def delete_host(client, name)
-    result = client.delete_host(name: name)
-    Chef::Log.debug(result.to_s)
-    raise "Can't open connection to API" if result.nil?
-    raise result.to_s unless result.is_a?(Hash)
-    raise "Failed to delete object Host #{name}: #{result}" unless [200, 404].include?(result['code'])
   end
 end

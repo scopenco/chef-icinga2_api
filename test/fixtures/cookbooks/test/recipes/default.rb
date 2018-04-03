@@ -129,12 +129,6 @@ icinga2_api_service 'host2_ping' do
   connection icinga2_api
 end
 
-icinga2_api_service 'host2_ping' do
-  host_name 'host2'
-  connection icinga2_api
-  action :delete
-end
-
 icinga2_api_host 'host2' do
   connection icinga2_api
   action :delete

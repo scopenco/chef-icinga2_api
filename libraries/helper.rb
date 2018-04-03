@@ -37,4 +37,44 @@ module Icinga2ApiHelper
     }
     Icinga2::Client.new(config)
   end
+
+  # add icinga2 object 'Service'
+  def add_service(client, attributes)
+    result = client.add_service(attributes)
+    Chef::Log.debug(result.to_s)
+    raise "Can't open connection to API" if result.nil?
+    raise result.to_s unless result.is_a?(Hash)
+    raise "Failed to create object Service #{name}: #{result}" unless result['code'] == 200
+  rescue ArgumentError => err
+    raise "Argument error: #{err}"
+  end
+
+  # delete icinga2 object 'Service'
+  def delete_service(client, name, host_name)
+    result = client.delete_service(name: name, host_name: host_name)
+    Chef::Log.debug(result.to_s)
+    raise "Can't open connection to API" if result.nil?
+    raise result.to_s unless result.is_a?(Hash)
+    raise "Failed to delete object Service #{name}: #{result}" unless [200, 404].include?(result['code'])
+  end
+
+  # add icinga2 object 'Host'
+  def add_host(client, attributes)
+    result = client.add_host(attributes)
+    Chef::Log.debug(result.to_s)
+    raise "Can't open connection to API" if result.nil?
+    raise result.to_s unless result.is_a?(Hash)
+    raise "Failed to create object Host #{name}: #{result}" unless result['code'] == 200
+  rescue ArgumentError => err
+    raise "Argument error: #{err}"
+  end
+
+  # delete icinga2 object 'Host'
+  def delete_host(client, name)
+    result = client.delete_host(name: name)
+    Chef::Log.debug(result.to_s)
+    raise "Can't open connection to API" if result.nil?
+    raise result.to_s unless result.is_a?(Hash)
+    raise "Failed to delete object Host #{name}: #{result}" unless [200, 404].include?(result['code'])
+  end
 end

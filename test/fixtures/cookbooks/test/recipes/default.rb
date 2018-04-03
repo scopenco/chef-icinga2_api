@@ -113,6 +113,29 @@ icinga2_api_host 'host1' do
 end
 
 icinga2_api_host 'host2' do
+  attributes 'address' => '127.0.0.1',
+	     'templates' => ['check-host-tmpl-30s'],
+	     'vars' => {
+		'myvar' => 'mygroup',
+	      }
+  connection icinga2_api
+end
+
+icinga2_api_service 'host2_ping' do
+  host_name 'host2'
+  attributes 'templates' => ['check-service-tmpl-30s'],
+             'display_name' => 'PING',
+             'check_command' => 'hostalive'
+  connection icinga2_api
+end
+
+icinga2_api_service 'host2_ping' do
+  host_name 'host2'
+  connection icinga2_api
+  action :delete
+end
+
+icinga2_api_host 'host2' do
   connection icinga2_api
   action :delete
 end

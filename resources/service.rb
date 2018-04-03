@@ -20,7 +20,7 @@
 resource_name :icinga2_api_service
 
 property :host_name, String, required: true, desired_state: false
-property :attributes, kind_of: Hash
+property :attributes, kind_of: Hash, default: {}
 property :connection, Hash, required: true, desired_state: false
 
 default_action :create

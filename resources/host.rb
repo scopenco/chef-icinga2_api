@@ -41,7 +41,7 @@ load_current_value do |desired|
   if result[0]['code'] == 404
     current_value_does_not_exist!
   else
-    attributes_s = desired.attributes.each_with_object({}) {|(k,v), h| h[k.to_s] = v}
+    attributes_s = desired.attributes.each_with_object({}) { |(k, v), h| h[k.to_s] = v }
     # Remove default 'name' value from 'templates' Array
     attrs = result[0]['attrs'].select { |k, _v| attributes_s.keys.include?(k) }
     if attributes_s.keys.include?('templates')
@@ -72,19 +72,8 @@ end
 
 action :delete do
   require 'icinga2'
-  client = icinga2_api_conn(new_resource.connection)
 
-  converge_by "delete objects related to Host #{new_resource.name}" do
-    result = client.service_objects(
-      attrs: %w(name),
-      filter: "match(\"#{new_resource.name}\", host.name)",
-    ).map { |k| k['attrs']['name'] }
-    raise "Can't open connection to API" if result.nil?
-    raise result.to_s unless result.is_a?(Array)
-    result.each do |srv|
-      delete_service(client, srv, new_resource.name)
-    end
-  end
+  client = icinga2_api_conn(new_resource.connection)
 
   converge_by "delete object Host #{new_resource.name}" do
     delete_host(client, new_resource.name)

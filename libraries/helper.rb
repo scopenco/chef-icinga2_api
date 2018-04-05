@@ -51,7 +51,7 @@ module Icinga2ApiHelper
 
   # delete icinga2 object 'Service'
   def delete_service(client, name, host_name)
-    result = client.delete_service(name: name, host_name: host_name)
+    result = client.delete_service(name: name, host_name: host_name, cascade: true)
     Chef::Log.debug(result.to_s)
     raise "Can't open connection to API" if result.nil?
     raise result.to_s unless result.is_a?(Hash)
@@ -71,7 +71,7 @@ module Icinga2ApiHelper
 
   # delete icinga2 object 'Host'
   def delete_host(client, name)
-    result = client.delete_host(name: name)
+    result = client.delete_host(name: name, cascade: true)
     Chef::Log.debug(result.to_s)
     raise "Can't open connection to API" if result.nil?
     raise result.to_s unless result.is_a?(Hash)

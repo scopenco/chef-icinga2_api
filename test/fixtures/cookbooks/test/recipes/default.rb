@@ -95,29 +95,29 @@ include_recipe 'icinga2_api'
 
 # Set connection to icinga2 API
 icinga2_api = {
-    host: '127.0.0.1',
-    username: 'admin',
-    password: 'mysecret',
-    node_name: 'master',
-    cluster: true,
-    satellite: 'master',
+  host: '127.0.0.1',
+  username: 'admin',
+  password: 'mysecret',
+  node_name: 'master',
+  cluster: true,
+  satellite: 'master',
 }
 
 icinga2_api_host 'host1' do
   attributes 'address' => '127.0.0.1',
-	     'templates' => ['check-host-tmpl-30s'],
-	     'vars' => {
-		'myvar' => 'mygroup',
-	      }
+             'templates' => ['check-host-tmpl-30s'],
+             'vars' => {
+               'myvar' => 'mygroup',
+             }
   connection icinga2_api
 end
 
 icinga2_api_host 'host2' do
   attributes 'address' => '127.0.0.1',
-	     'templates' => ['check-host-tmpl-30s'],
-	     'vars' => {
-		'myvar' => 'mygroup',
-	      }
+             'templates' => ['check-host-tmpl-30s'],
+             'vars' => {
+               'myvar' => 'mygroup',
+             }
   connection icinga2_api
 end
 

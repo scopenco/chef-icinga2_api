@@ -1,6 +1,10 @@
 icinga2_api CHANGELOG
 ========================
 
+1.0.3 (2018-04-5)
+------------------
+- Add cascade:true for removing host/service
+
 1.0.2 (2018-04-3)
 ------------------
 - Improve removing host object
